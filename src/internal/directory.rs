@@ -133,16 +133,6 @@ impl<F> Directory<F> {
                         self.dir_entries.len()
                     );
                 }
-                let entry = &self.dir_entry(left_sibling);
-                if internal::path::compare_names(&entry.name, &dir_entry.name)
-                    != Ordering::Less
-                {
-                    malformed!(
-                        "name ordering, {:?} vs {:?}",
-                        dir_entry.name,
-                        entry.name
-                    );
-                }
                 stack.push(left_sibling);
             }
             let right_sibling = dir_entry.right_sibling;
@@ -152,16 +142,6 @@ impl<F> Directory<F> {
                         "right sibling index is {}, but directory entry count \
                          is {}",
                         right_sibling, self.dir_entries.len());
-                }
-                let entry = &self.dir_entry(right_sibling);
-                if internal::path::compare_names(&dir_entry.name, &entry.name)
-                    != Ordering::Less
-                {
-                    malformed!(
-                        "name ordering, {:?} vs {:?}",
-                        dir_entry.name,
-                        entry.name
-                    );
                 }
                 stack.push(right_sibling);
             }
